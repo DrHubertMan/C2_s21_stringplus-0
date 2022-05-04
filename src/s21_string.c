@@ -152,9 +152,9 @@ size_t s21_strspn(const char *str1, const char *str2) {
 }
 
 //19 NO WORK YA EBU POCH
-
 char *s21_strstr (const char *haystack, const char *needle) {
-    const char *needle_ptr = s21_NULL, *haystack_ptr = s21_NULL;
+    const char *needle_ptr = s21_NULL;
+    const char *haystack_ptr = s21_NULL;
     if (haystack == s21_NULL || needle == s21_NULL) {
         return s21_NULL;
     }
@@ -173,4 +173,41 @@ char *s21_strstr (const char *haystack, const char *needle) {
         ++haystack;
     }
     return s21_NULL;
+}
+
+//20
+char*  strtok_r(char* string_org,const char* demial) {
+    static unsigned char* last; 
+    unsigned char* str;         
+    const unsigned char* ctrl = (const unsigned char*)demial;
+    unsigned char map[32]; 
+    int count;
+
+    for (count =0; count <32; count++){
+     map[count] = 0;
+    }   
+    do {
+     map[*ctrl >> 3] |= (1 << (*ctrl & 7));
+    } while (*ctrl++);     
+    if (string_org){
+     str = (unsigned char*)string_org;
+    } else{
+     str = last;
+    }
+    while ((map[*str >> 3] & (1 << (*str & 7)))  && *str){
+     str++;
+    } 
+    string_org = (char*)str; 
+    for (;*str; str++){
+     if ( map[*str >> 3] & (1 << (*str & 7))){
+      *str++ = '\0';
+      break;         
+     }         
+    }    
+    last =str;    
+    if (string_org == (char*)str){
+     return NULL; 
+    }else{
+     return string_org;
+    }
 }
