@@ -176,38 +176,3 @@ char *s21_strstr (const char *haystack, const char *needle) {
 }
 
 //20
-char*  strtok_r(char* string_org,const char* demial) {
-    static unsigned char* last; 
-    unsigned char* str;         
-    const unsigned char* ctrl = (const unsigned char*)demial;
-    unsigned char map[32]; 
-    int count;
-
-    for (count =0; count <32; count++){
-     map[count] = 0;
-    }   
-    do {
-     map[*ctrl >> 3] |= (1 << (*ctrl & 7));
-    } while (*ctrl++);     
-    if (string_org){
-     str = (unsigned char*)string_org;
-    } else{
-     str = last;
-    }
-    while ((map[*str >> 3] & (1 << (*str & 7)))  && *str){
-     str++;
-    } 
-    string_org = (char*)str; 
-    for (;*str; str++){
-     if ( map[*str >> 3] & (1 << (*str & 7))){
-      *str++ = '\0';
-      break;         
-     }         
-    }    
-    last =str;    
-    if (string_org == (char*)str){
-     return NULL; 
-    }else{
-     return string_org;
-    }
-}
