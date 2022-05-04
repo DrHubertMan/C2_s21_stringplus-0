@@ -1,5 +1,3 @@
-#define s21_NULL ((void *)0)
-typedef long unsigned int size_t;
 #include"s21_string.h"
 
 //1
@@ -153,26 +151,55 @@ size_t s21_strspn(const char *str1, const char *str2) {
 
 //19 NO WORK YA EBU POCH
 char *s21_strstr (const char *haystack, const char *needle) {
-    const char *needle_ptr = s21_NULL;
-    const char *haystack_ptr = s21_NULL;
-    if (haystack == s21_NULL || needle == s21_NULL) {
-        return s21_NULL;
+    if (*needle == '\0') {
+        return ((char*)haystack);
     }
-    while (*haystack) {
-        if (*haystack == *needle) {
-            int trigger_out = 1;
-            needle_ptr = needle;
-            haystack_ptr = haystack;
-            while (*needle_ptr && *haystack_ptr) {
-                trigger_out = trigger_out && (*needle_ptr == *haystack_ptr);
-            } 
-            if (trigger_out) {
-                return (char*)haystack;
+    for (; (haystack = s21_strchr(haystack, *needle)) != s21_NULL; ++haystack) {
+        const char *str1, *str2;
+        for (str1 = haystack, str2 = needle; ;) {
+            if (*++str2 == '\0') {
+                return ((char*)haystack);
             }
-    }
-        ++haystack;
+            else if (*++str1 != *str2) {
+                break;
+            }
+        }
     }
     return s21_NULL;
 }
 
 //20
+char *s21_strtok(char * str, const char *delim) {
+    static char * s = s21_NULL;
+    char * ret = s21_NULL;
+    if(str != s21_NULL) {
+      s = str;
+    }
+    if(s != s21_NULL && s21_strlen(s)) {
+        const size_t dlen = s21_strlen(delim);
+        //Skip consecutive delimiters.
+        while(*s && s21_memchr(delim, *s, dlen) != s21_NULL) {
+          ++s;
+        }
+        //If the beginning of the token is not at the end of the string...
+        if(*s) {
+            //Set our retval to the first non-delim char.
+            ret = s;
+            //Search for the next non-delim character, if any.
+            while(*s) {
+                if(s21_memchr(delim, *s, dlen) != s21_NULL) {
+                    break;
+                }
+                else {
+                    ++s;
+                }
+            }
+            if(*s) {
+                //Null-terminate the token and march the stored pointer forward.
+                s[0] = 0;
+                ++s;
+            }
+        }
+    }
+    return ret;
+}

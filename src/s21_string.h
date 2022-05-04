@@ -1,5 +1,7 @@
 #ifndef MAKROS
 #define MAKROS
+#define s21_NULL ((void *)0)
+typedef long unsigned int size_t;
 #include<stddef.h>
 
 void *s21_memchr(const void *str, int f, size_t n);
@@ -15,5 +17,6 @@ char *s21_strchr(const char *str, int c);
 size_t s21_strlen(const char *str);
 char *s21_strncat(char *dest, const char *src, size_t n);
 char *s21_strcat(char *dest, const char *src);
+char *s21_strtok(char * str, const char *delim);
 
 #endif  // MAKROS 

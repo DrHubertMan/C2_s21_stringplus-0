@@ -2,10 +2,13 @@
 #include<stdio.h>
 
 int main() {
-    char kek1[30] = "012345678";
-    char kek3[30] = "345";
+    char kek1[30] = "test1/test2/test3/test4";
+    char kek3[30] = "/";
     char *istr;
-    istr = s21_strstr(kek1, kek3);
-    printf("%s\n", istr); 
+    istr = s21_strtok(kek1, kek3);
+    while (istr != s21_NULL) {
+        printf("%s\n", istr);
+        istr = s21_strtok(s21_NULL, kek3);
+    }
     return 0;
 }
