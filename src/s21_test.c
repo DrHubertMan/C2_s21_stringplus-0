@@ -1,5 +1,7 @@
 #include"s21_string.h"
 #include<stdio.h>
+#include<chek.h>
+#include<signal.h>
 
 int main() {
     char kek1[30] = "test1/test2/test3/test4";

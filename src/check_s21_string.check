@@ -1,0 +1,58 @@
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+#include"s21_string.h"
+
+#test memcmp_1
+char str1[] = "123456";
+char str2[] = "123456";
+size_t a = 10;
+ck_assert_int_eq(memcmp(str1, str2, a), s21_memcmp(str1, str2, a));
+
+#test memcmp_2
+char str1[] = "654321";
+char str2[] = "123456";
+size_t a = 10;
+ck_assert_int_eq(memcmp(str1, str2, a), s21_memcmp(str1, str2, a));
+
+#test memcmp_3
+char str1[] = "";
+char str2[] = "";
+size_t a = 10;
+ck_assert_int_eq(memcmp(str1, str2, a), s21_memcmp(str1, str2, a));
+
+#test memcmp_4
+char str1[] = "abc321";
+char str2[] = "abc456";
+size_t a = 10;
+ck_assert_int_eq(memcmp(str1, str2, a), s21_memcmp(str1, str2, a));
+
+#test memcmp_5
+char str1[] = "abcd";
+char str2[] = "abcdx";
+size_t a = 6;
+ck_assert_int_eq(memcmp(str1, str2, a), s21_memcmp(str1, str2, a));
+
+#test memcmp_6
+char str1[] = "abcd";
+char str2[] = "abcdx";
+size_t a = 5;
+ck_assert_int_eq(memcmp(str1, str2, a), s21_memcmp(str1, str2, a));
+
+#test memcmp_7
+char str1[] = "abcde";
+char str2[] = "abcd";
+size_t a = 4;
+ck_assert_int_eq(memcmp(str1, str2, a), s21_memcmp(str1, str2, a));
+
+#test memcmp_8
+char str1[] = "ab";
+char str2[] = "abc";
+size_t a = 3;
+ck_assert_int_eq(memcmp(str1, str2, a), s21_memcmp(str1, str2, a));
+
+#test memmove_1
+char str1[] = "abc";
+char str2[] = "123";
+size_t a = 3;
+ck_assert_ptr_eq(memmove(str1, str2, a), s21_memmove(str1, str2, a));
