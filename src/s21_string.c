@@ -1,6 +1,6 @@
 #include"s21_string.h"
 
-//1
+// 1
 void *s21_memchr(const void *str, int f, size_t n) {
     const unsigned char *buf = str;
     size_t i;
@@ -13,7 +13,7 @@ void *s21_memchr(const void *str, int f, size_t n) {
     return back;
 }
 
-//2
+// 2
 int s21_memcmp(const void* str1, const void* str2, size_t n) {
     const unsigned char *buf1 = str1;
     const unsigned char *buf2 = str2;
@@ -23,15 +23,14 @@ int s21_memcmp(const void* str1, const void* str2, size_t n) {
         if (*buf1 == *buf2) {
             buf1++;
             buf2++;
-        }
-        else {
+      } else {
             back = (*buf1-*buf2);
         }
     }
     return back;
 }
 
-//3
+// 3
 void *s21_memcpy(void* dest, const void* str1, size_t n) {
     char *d = dest;
     const unsigned char *buf = str1;
@@ -41,7 +40,7 @@ void *s21_memcpy(void* dest, const void* str1, size_t n) {
     return dest;
 }
 
-//4
+// 4
 void *s21_memmove(void *dest, void *str1, size_t n) {
     void *d = dest;
     if (dest <= str1 || (char*)dest >= ((char*)str1 + n)) {
@@ -58,8 +57,8 @@ void *s21_memmove(void *dest, void *str1, size_t n) {
     return d;
 }
 
-//5
-void *s21_memset (void *str, int c, size_t n) {
+// 5
+void *s21_memset(void *str, int c, size_t n) {
     unsigned char *d = str;
     const unsigned char zc = c;
     for (size_t i = 0; i < n; i++) {
@@ -68,37 +67,37 @@ void *s21_memset (void *str, int c, size_t n) {
     return str;
 }
 
-//6
+// 6
 char *s21_strcat(char *dest, const char *src) {
     size_t length_dest = s21_strlen(dest);
-    size_t length_src = s21_strlen(src); 
+    size_t length_src = s21_strlen(src);
     s21_memcpy(dest + length_dest, src, length_src + 1);
     return dest;
 }
 
-//7
+// 7
 char *s21_strncat(char *dest, const char *src, size_t n) {
     size_t length_dest = s21_strlen(dest);
     char* tmp = (char*) s21_memcpy(dest + length_dest, src, n);
     dest[length_dest + n] = '\0';
-    tmp++; // ругается на неиспользованную переменную при компиляции ))0))
+    tmp++;  // ругается на неиспользованную переменную при компиляции ))0))
     return dest;
 }
 
-//8
+// 8
 char *s21_strchr(const char *str, int c) {
     size_t length_str = s21_strlen(str);
     return s21_memchr(str, c, length_str);
 }
 
-//15
+// 15
 size_t s21_strlen(const char *str) {
     int result;
     for ( result = 0; str[result] != '\0'; result++ ) ;
     return result;
 }
 
-//16
+// 16
 char *s21_strpbrk(const char *str1, const char *str2) {
     const char *buf1 = str1;
     const char *buf2 = str2;
@@ -120,25 +119,25 @@ char *s21_strpbrk(const char *str1, const char *str2) {
     return back;
 }
 
-//17
+// 17
 char *s21_strrchr(const char* str, int c) {
     const char f = c;
     const char *buf = str;
     for (; *str != '\0'; str++) {
-        if (*str == f){
+        if (*str == f) {
             buf = str;
         }
     }
     return (char*)buf;
 }
 
-//18 
+// 18
 size_t s21_strspn(const char *str1, const char *str2) {
     const char *buf1 = str1;
     const char *buf2;
     for (; *buf1 != '\0'; buf1++) {
         buf2 = str2;
-        for (; ; buf2++){
+        for (; ; buf2++) {
             if (*buf2 == '\0') {
                 return ((size_t)(buf1 - str1));
           } else if (*buf1 == *buf2) {
@@ -149,8 +148,8 @@ size_t s21_strspn(const char *str1, const char *str2) {
     return ((size_t)(buf1 - str1));
 }
 
-//19 NO WORK YA EBU POCH
-char *s21_strstr (const char *haystack, const char *needle) {
+// 19 half WORK YA NE EBU POCH
+char *s21_strstr(const char *haystack, const char *needle) {
     if (*needle == '\0') {
         return ((char*)haystack);
     }
@@ -159,8 +158,7 @@ char *s21_strstr (const char *haystack, const char *needle) {
         for (str1 = haystack, str2 = needle; ;) {
             if (*++str2 == '\0') {
                 return ((char*)haystack);
-            }
-            else if (*++str1 != *str2) {
+          } else if (*++str1 != *str2) {
                 break;
             }
         }
@@ -168,34 +166,28 @@ char *s21_strstr (const char *haystack, const char *needle) {
     return s21_NULL;
 }
 
-//20
+// 20
 char *s21_strtok(char * str, const char *delim) {
     static char * s = s21_NULL;
     char * ret = s21_NULL;
-    if(str != s21_NULL) {
+    if (str != s21_NULL) {
       s = str;
     }
-    if(s != s21_NULL && s21_strlen(s)) {
+    if (s != s21_NULL && s21_strlen(s)) {
         const size_t dlen = s21_strlen(delim);
-        //Skip consecutive delimiters.
-        while(*s && s21_memchr(delim, *s, dlen) != s21_NULL) {
+        while (*s && s21_memchr(delim, *s, dlen) != s21_NULL) {
           ++s;
         }
-        //If the beginning of the token is not at the end of the string...
-        if(*s) {
-            //Set our retval to the first non-delim char.
+        if (*s) {
             ret = s;
-            //Search for the next non-delim character, if any.
-            while(*s) {
-                if(s21_memchr(delim, *s, dlen) != s21_NULL) {
+            while (*s) {
+                if (s21_memchr(delim, *s, dlen) != s21_NULL) {
                     break;
-                }
-                else {
+              } else {
                     ++s;
                 }
             }
-            if(*s) {
-                //Null-terminate the token and march the stored pointer forward.
+            if (*s) {
                 s[0] = 0;
                 ++s;
             }

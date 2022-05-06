@@ -1,6 +1,6 @@
 #include"s21_string.h"
 #include<stdio.h>
-#include<chek.h>
+#include<check.h>
 #include<signal.h>
 
 int main() {
