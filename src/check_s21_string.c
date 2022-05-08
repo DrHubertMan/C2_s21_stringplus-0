@@ -277,8 +277,8 @@ END_TEST
 START_TEST(strncat_1)
 {
 #line 150
-char str1[] = "bidon";
-char str2[] = "joe";
+char str1[10] = "bidon";
+char str2[10] = "joe";
 size_t n = 100;
 ck_assert_ptr_eq(strncat(str1, str2, n), s21_strncat(str1, str2, n));
 
@@ -288,8 +288,8 @@ END_TEST
 START_TEST(strncat_2)
 {
 #line 156
-char str1[] = "4:20";
-char str2[] = "4:19";
+char str1[10] = "4:20";
+char str2[10] = "4:19";
 size_t n = 100;
 ck_assert_ptr_eq(strncat(str1, str2, n), s21_strncat(str1, str2, n));
 
@@ -299,8 +299,8 @@ END_TEST
 START_TEST(strncat_3)
 {
 #line 162
-char str1[] = "pants";
-char str2[] = "za 40 griven";
+char str1[20] = "pants";
+char str2[20] = "za 40 griven";
 size_t n = 100;
 ck_assert_ptr_eq(strncat(str1, str2, n), s21_strncat(str1, str2, n));
 
@@ -310,8 +310,8 @@ END_TEST
 START_TEST(strncat_4)
 {
 #line 168
-char str1[] = "435564536";
-char str2[] = "5195195561";
+char str1[30] = "435564536";
+char str2[30] = "5195195561";
 size_t n = 100;
 ck_assert_ptr_eq(strncat(str1, str2, n), s21_strncat(str1, str2, n));
 

@@ -90,6 +90,74 @@ char *s21_strchr(const char *str, int c) {
     return s21_memchr(str, c, length_str);
 }
 
+// 9
+int s21_strcmp(const char *str1, const char *str2) {
+    size_t length_str1 = s21_strlen(str1);
+    size_t length_str2 = s21_strlen(str2);
+    int result = 0;
+    if ( length_str1 == length_str2 ) {
+        result = s21_memcmp(str1, str2, length_str1);
+    } else if ( length_str1 > length_str2 ) {
+        result = s21_memcmp(str1, str2, length_str1);
+    } else {
+        result = s21_memcmp(str1, str2, length_str2);
+    }
+    return result;
+}
+
+// 10
+int s21_strncmp(const char *str1, const char *str2, size_t n) {
+    int result = 0;
+    size_t lenght_str1 = s21_strlen(str1);
+    size_t length_str2 = s21_strlen(str2);
+    //находим максимальную на тот случай, если n > какой-либо из длин
+    size_t max_length = lenght_str1 > length_str2 ? lenght_str1 : length_str2;
+    if ( n > max_length ) {
+        result = s21_memcmp(str1, str2, max_length);
+    } else {
+         result = s21_memcmp(str1, str2, n);
+    }
+    return result;
+}
+
+// 11
+char *s21_strcpy(char *dest, const char *src) {
+    size_t length_src = s21_strlen(src) + 1;
+    return s21_memcpy(dest, src, length_src);
+}
+
+// 12
+char *s21_strncpy(char *dest, const char *src, size_t n) {
+    size_t length_src = s21_strlen(src);
+    if ( length_src >= n ) {
+        s21_memcpy(dest, src, n);
+    } else {
+        s21_memcpy(dest, src, length_src);
+        s21_memset(dest + length_src, '\0', n - length_src);
+    }
+    return dest;
+}
+
+// 13
+size_t s21_strcspn(const char *str1, const char *str2) {
+    size_t length_str1 = s21_strlen(str1);
+    size_t length_str2 = s21_strlen(str2);
+    size_t min_length = length_str1;
+    for ( size_t i = 0; i < length_str2; i++ ) {
+        char* occurrence =  s21_memchr(str1, str2[i], length_str1);
+        if ( occurrence != NULL ) {
+            size_t tmp = occurrence - str1;
+            min_length = min_length > tmp ? tmp : min_length;
+        }
+    }
+    return min_length;
+}
+
+//// 14
+//char *s21_strerror(int errnum) {
+//    return ERRORS[errnum];
+//}
+
 // 15
 size_t s21_strlen(const char *str) {
     int result;

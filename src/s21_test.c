@@ -1,16 +1,17 @@
-#include"s21_string.h"
+#include"s21_string.c"
 #include<stdio.h>
-#include<check.h>
+#include<string.h>
 #include<signal.h>
 
 int main() {
-    char kek1[30] = "test1/test2/test3/test4";
-    char kek3[30] = "/";
-    char *istr;
-    istr = s21_strtok(kek1, kek3);
-    while (istr != s21_NULL) {
-        printf("%s\n", istr);
-        istr = s21_strtok(s21_NULL, kek3);
-    }
+    char str1[10] = "bidon";
+    char str2[10] = "joe";
+    size_t n = 100;
+    strncat(str1, str2, n);
+    printf("%s\n", str1);
+    char str3[10] = "bidon";
+    char str4[10] = "joe";
+    s21_strncat(str3, str4, n);
+    printf("%s\n", str3);
     return 0;
 }
