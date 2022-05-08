@@ -1,16 +1,16 @@
 #include"s21_string.h"
+#include<stdio.h>
 
 // 1
 void *s21_memchr(const void *str, int f, size_t n) {
     const unsigned char *buf = str;
     size_t i;
-    void *back = s21_NULL;
-    for (i = 0; i < n; i++, buf++) {
-        if (*buf == f) {
-            back = (void*)buf;
+    for ( i = 0; i < n; i++ ) {
+        if ( buf[i] == f ) {
+            return (void*) buf + i;
         }
     }
-    return back;
+    return s21_NULL;
 }
 
 // 2
@@ -78,9 +78,8 @@ char *s21_strcat(char *dest, const char *src) {
 // 7
 char *s21_strncat(char *dest, const char *src, size_t n) {
     size_t length_dest = s21_strlen(dest);
-    char* tmp = (char*) s21_memcpy(dest + length_dest, src, n);
+    s21_memcpy(dest + length_dest, src, n);
     dest[length_dest + n] = '\0';
-    tmp++;  // ругается на неиспользованную переменную при компиляции ))0))
     return dest;
 }
 
@@ -145,7 +144,7 @@ size_t s21_strcspn(const char *str1, const char *str2) {
     size_t min_length = length_str1;
     for ( size_t i = 0; i < length_str2; i++ ) {
         char* occurrence =  s21_memchr(str1, str2[i], length_str1);
-        if ( occurrence != NULL ) {
+        if ( occurrence != s21_NULL ) {
             size_t tmp = occurrence - str1;
             min_length = min_length > tmp ? tmp : min_length;
         }
@@ -201,19 +200,39 @@ char *s21_strrchr(const char* str, int c) {
 
 // 18
 size_t s21_strspn(const char *str1, const char *str2) {
-    const char *buf1 = str1;
-    const char *buf2;
-    for (; *buf1 != '\0'; buf1++) {
-        buf2 = str2;
-        for (; ; buf2++) {
-            if (*buf2 == '\0') {
-                return ((size_t)(buf1 - str1));
-          } else if (*buf1 == *buf2) {
-                break;
+    const char *buf = str1;
+    size_t a = 0;
+    size_t l2 = s21_strlen(str2);
+    size_t l1 = s21_strlen(str1);
+    if (s21_memchr(str2, str1[0], l2) != s21_NULL) {
+        a = 1;
+        for (size_t i = 0; i < l2; i++) {
+            for (size_t j = 0; j < l1 ; j++) {
+                str1++;
+                if (s21_memchr(buf, *str2, (size_t)(buf - str1)) != s21_NULL) {
+                    a+=1;
+              } else { 
+                    break;
+                }
+            }
           }
         }
-    }
-    return ((size_t)(buf1 - str1));
+    return a;
+    // 0123456789
+    // 210
+    //const char *buf1 = str1;
+    //const char *buf2;
+    //for (; *buf1 != '\0'; buf1++) {
+    //    buf2 = str2;
+    //    for (; ; buf2++) {
+    //        if (*buf2 == '\0') {
+    //            return ((size_t)(buf1 - str1));
+    //      } else if (*buf1 == *buf2) {
+    //            break;
+    //      }
+    //    }
+    //}
+    //return ((size_t)(buf1 - str1));
 }
 
 // 19 half WORK YA NE EBU POCH

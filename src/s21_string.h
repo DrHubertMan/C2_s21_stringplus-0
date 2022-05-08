@@ -2,7 +2,6 @@
 #define MAKROS
 #define s21_NULL ((void *)0)
 typedef long unsigned int size_t;
-#include<stddef.h>
 
 void *s21_memchr(const void *str, int f, size_t n);
 int s21_memcmp(const void *str1, const void* str2, size_t n);
