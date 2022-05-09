@@ -200,39 +200,18 @@ char *s21_strrchr(const char* str, int c) {
 
 // 18
 size_t s21_strspn(const char *str1, const char *str2) {
-    const char *buf = str1;
-    size_t a = 0;
-    size_t l2 = s21_strlen(str2);
-    size_t l1 = s21_strlen(str1);
-    if (s21_memchr(str2, str1[0], l2) != s21_NULL) {
-        a = 1;
-        for (size_t i = 0; i < l2; i++) {
-            for (size_t j = 0; j < l1 ; j++) {
-                str1++;
-                if (s21_memchr(buf, *str2, (size_t)(buf - str1)) != s21_NULL) {
-                    a+=1;
-              } else { 
-                    break;
-                }
-            }
-          }
+    size_t result = 0;
+    size_t str1_length = s21_strlen(str1);
+    size_t str2_length = s21_strlen(str2);
+    
+    for ( size_t i = 0; i < str1_length; i++ ) {
+        if (s21_memchr(str2, str1[i], str2_length) != NULL) {
+            result+=1;
+        } else {
+            break;
         }
-    return a;
-    // 0123456789
-    // 210
-    //const char *buf1 = str1;
-    //const char *buf2;
-    //for (; *buf1 != '\0'; buf1++) {
-    //    buf2 = str2;
-    //    for (; ; buf2++) {
-    //        if (*buf2 == '\0') {
-    //            return ((size_t)(buf1 - str1));
-    //      } else if (*buf1 == *buf2) {
-    //            break;
-    //      }
-    //    }
-    //}
-    //return ((size_t)(buf1 - str1));
+    } 
+    return result;
 }
 
 // 19 half WORK YA NE EBU POCH
