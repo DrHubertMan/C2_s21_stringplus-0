@@ -152,10 +152,18 @@ size_t s21_strcspn(const char *str1, const char *str2) {
     return min_length;
 }
 
-//// 14
-//char *s21_strerror(int errnum) {
-//    return ERRORS[errnum];
-//}
+// 14
+char *s21_strerror(int errnum) {
+    char* error = NULL;
+    if (errnum < MAX_ERRORS && errnum >= 0) {
+        error = ERRORS[errnum];
+    } else {
+        char s[100];
+        sprintf(s, "%s %d", STR_ERROR, errnum);
+        error = s;
+    }
+    return error;
+}
 
 // 15
 size_t s21_strlen(const char *str) {
