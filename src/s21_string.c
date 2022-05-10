@@ -159,9 +159,8 @@ char *s21_strerror(int errnum) {
     if (errnum < MAX_ERRORS && errnum >= 0) {
         error = ERRORS[errnum];
     } else {
-        char s[100];
-        sprintf(s, "%s %d", "Unknown error:", errnum);
-        error = s;
+        sprintf(SPACE, "%s %d", STR_ERROR, errnum);
+        error = SPACE;
     }
     return error;
 }
