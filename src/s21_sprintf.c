@@ -7,7 +7,7 @@
 int s21_sprintf(char *dest, const char *format, ...);
 
 int main() {
-    char str[1024] = "loh";
+    char str[1024] = "1";
     s21_sprintf(str, "%c %d %s", '3', 8, "one");
     printf("%s\n", str);
     return 0;
