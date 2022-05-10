@@ -1,6 +1,7 @@
 #include"s21_string.h"
 #include<stdio.h>
 #include"s21_strerror.h"
+#include <stdlib.h>
 
 // 1
 void *s21_memchr(const void *str, int f, size_t n) {
@@ -159,9 +160,8 @@ char *s21_strerror(int errnum) {
     if (errnum < MAX_ERRORS && errnum >= 0) {
         error = ERRORS[errnum];
     } else {
-        char s[100];
-        sprintf(s, "%s %d", "Unknown error:", errnum);
-        error = s;
+        sprintf(SPACE, "%s %d", STR_ERROR, errnum);
+        error = SPACE;
     }
     return error;
 }
@@ -268,4 +268,32 @@ char *s21_strtok(char * str, const char *delim) {
         }
     }
     return ret;
+}
+
+void *s21_to_upper(const char *str) {
+    size_t str_length = s21_strlen(str);
+    char *result = (char*) malloc(sizeof(char) * (str_length + 1));
+    s21_strcpy(result, str);
+    while (*str) {
+        if ( *str >= 'a' && *str <= 'z' ) {
+            *result = *str - 32;
+        }
+        str++;
+        result++;
+    }
+    return result - str_length;
+}
+
+void *s21_to_lower(const char *str) {
+    size_t str_length = s21_strlen(str);
+    char* result = (char *) malloc(sizeof(char) * (str_length + 1));
+    s21_strcpy(result, str);
+    while (*str) {
+        if ( *str >= 'A' && *str <= 'Z' ) {
+            *result = *str + 32;
+        }
+        str++;
+        result++;
+    }
+    return result - str_length;
 }

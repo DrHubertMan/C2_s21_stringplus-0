@@ -4,7 +4,6 @@
 #include<signal.h>
 
 int main() {
-    for (int errnum = -10; errnum <= MAX_ERRORS; errnum++) {
-        printf("%s - %s\n", strerror(errnum), s21_strerror(errnum));
-    }
+    char str[] = "GG WP";
+    printf("%s\n", s21_to_lower(str));
 }
