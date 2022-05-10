@@ -1,5 +1,6 @@
 #include"s21_string.h"
 #include<stdio.h>
+#include"s21_strerror.h"
 
 // 1
 void *s21_memchr(const void *str, int f, size_t n) {
@@ -154,12 +155,12 @@ size_t s21_strcspn(const char *str1, const char *str2) {
 
 // 14
 char *s21_strerror(int errnum) {
-    char* error = NULL;
+    char* error = s21_NULL;
     if (errnum < MAX_ERRORS && errnum >= 0) {
         error = ERRORS[errnum];
     } else {
         char s[100];
-        sprintf(s, "%s %d", STR_ERROR, errnum);
+        sprintf(s, "%s %d", "Unknown error:", errnum);
         error = s;
     }
     return error;
@@ -211,7 +212,6 @@ size_t s21_strspn(const char *str1, const char *str2) {
     size_t result = 0;
     size_t str1_length = s21_strlen(str1);
     size_t str2_length = s21_strlen(str2);
-    
     for ( size_t i = 0; i < str1_length; i++ ) {
         if (s21_memchr(str2, str1[i], str2_length) != NULL) {
             result+=1;

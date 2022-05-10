@@ -608,6 +608,42 @@ START_TEST(strspn_4)
 char str1[] = "zahashihzanashih";
 char str2[] = "nashih";
 ck_assert_int_eq(strspn(str1, str2), s21_strspn(str1, str2));
+
+}
+END_TEST
+
+START_TEST(strerror_1)
+{
+#line 318
+int errnum = 10;
+ck_assert_str_eq(strerror(errnum), s21_strerror(errnum));
+
+}
+END_TEST
+
+START_TEST(strerror_2)
+{
+#line 322
+int errnum = 120;
+ck_assert_str_eq(strerror(errnum), s21_strerror(errnum));
+
+}
+END_TEST
+
+START_TEST(strerror_3)
+{
+#line 326
+int errnum = -5;
+ck_assert_str_eq(strerror(errnum), s21_strerror(errnum));
+
+}
+END_TEST
+
+START_TEST(strerror_4)
+{
+#line 330
+int errnum = 170;
+ck_assert_str_eq(strerror(errnum), s21_strerror(errnum));
 }
 END_TEST
 
@@ -677,6 +713,10 @@ int main(void)
     tcase_add_test(tc1_1, strspn_2);
     tcase_add_test(tc1_1, strspn_3);
     tcase_add_test(tc1_1, strspn_4);
+    tcase_add_test(tc1_1, strerror_1);
+    tcase_add_test(tc1_1, strerror_2);
+    tcase_add_test(tc1_1, strerror_3);
+    tcase_add_test(tc1_1, strerror_4);
 
     srunner_run_all(sr, CK_ENV);
     nf = srunner_ntests_failed(sr);

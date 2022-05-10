@@ -313,3 +313,19 @@ ck_assert_int_eq(strspn(str1, str2), s21_strspn(str1, str2));
 char str1[] = "zahashihzanashih";
 char str2[] = "nashih";
 ck_assert_int_eq(strspn(str1, str2), s21_strspn(str1, str2));
+
+#test strerror_1
+int errnum = 10;
+ck_assert_str_eq(strerror(errnum), s21_strerror(errnum));
+
+#test strerror_2
+int errnum = 120;
+ck_assert_str_eq(strerror(errnum), s21_strerror(errnum));
+
+#test strerror_3
+int errnum = -5;
+ck_assert_str_eq(strerror(errnum), s21_strerror(errnum));
+
+#test strerror_4
+int errnum = 170;
+ck_assert_str_eq(strerror(errnum), s21_strerror(errnum));

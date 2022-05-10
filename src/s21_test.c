@@ -4,8 +4,7 @@
 #include<signal.h>
 
 int main() {
-    char str1[] = "0123456789";
-    char str2[] = "210";
-    printf("%ld\n", s21_strspn(str1, str2));
-    return 0;
+    for (int errnum = -10; errnum <= MAX_ERRORS; errnum++) {
+        printf("%s - %s\n", strerror(errnum), s21_strerror(errnum));
+    }
 }
