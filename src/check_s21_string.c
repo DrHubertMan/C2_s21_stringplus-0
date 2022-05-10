@@ -532,9 +532,19 @@ ck_assert_ptr_eq(strstr(str1, str2), s21_strstr(str1, str2));
 }
 END_TEST
 
-START_TEST(strcat_1)
+START_TEST(strstr_5)
 {
 #line 278
+char str1[] = "jvbnuo5nignte9orh89vher8";
+char str2[] = "";
+ck_assert_ptr_eq(strstr(str1, str2), s21_strstr(str1, str2));
+
+}
+END_TEST
+
+START_TEST(strcat_1)
+{
+#line 283
 char dest[20] = "bidon";
 char src[] = "joe";
 ck_assert_ptr_eq(strcat(dest, src), s21_strcat(dest, src));
@@ -544,7 +554,7 @@ END_TEST
 
 START_TEST(strcat_2)
 {
-#line 283
+#line 288
 char dest[20] = "4:20";
 char src[] = "4:19";
 ck_assert_ptr_eq(strcat(dest, src), s21_strcat(dest, src));
@@ -554,7 +564,7 @@ END_TEST
 
 START_TEST(strcat_3)
 {
-#line 288
+#line 293
 char dest[40] = "pants";
 char src[] = "za 40 griven";
 ck_assert_ptr_eq(strcat(dest, src), s21_strcat(dest, src));
@@ -564,7 +574,7 @@ END_TEST
 
 START_TEST(strcat_4)
 {
-#line 293
+#line 298
 char dest[50] = "435564536";
 char src[] = "5195195561";
 ck_assert_ptr_eq(strcat(dest, src), s21_strcat(dest, src));
@@ -574,7 +584,7 @@ END_TEST
 
 START_TEST(strspn_1)
 {
-#line 298
+#line 303
 char str1[] = "devka za rulem";
 char str2[] = "za";
 ck_assert_int_eq(strspn(str1, str2), s21_strspn(str1, str2));
@@ -584,7 +594,7 @@ END_TEST
 
 START_TEST(strspn_2)
 {
-#line 303
+#line 308
 char str1[] = "0123456789";
 char str2[] = "210";
 ck_assert_int_eq(strspn(str1, str2), s21_strspn(str1, str2));
@@ -594,7 +604,7 @@ END_TEST
 
 START_TEST(strspn_3)
 {
-#line 308
+#line 313
 char str1[] = "GHtrH^$Y$GFD";
 char str2[] = "^$Y";
 ck_assert_int_eq(strspn(str1, str2), s21_strspn(str1, str2));
@@ -604,7 +614,7 @@ END_TEST
 
 START_TEST(strspn_4)
 {
-#line 313
+#line 318
 char str1[] = "zahashihzanashih";
 char str2[] = "nashih";
 ck_assert_int_eq(strspn(str1, str2), s21_strspn(str1, str2));
@@ -614,7 +624,7 @@ END_TEST
 
 START_TEST(strerror_1)
 {
-#line 318
+#line 323
 int errnum = 10;
 ck_assert_str_eq(strerror(errnum), s21_strerror(errnum));
 
@@ -623,7 +633,7 @@ END_TEST
 
 START_TEST(strerror_2)
 {
-#line 322
+#line 327
 int errnum = 120;
 ck_assert_str_eq(strerror(errnum), s21_strerror(errnum));
 
@@ -632,7 +642,7 @@ END_TEST
 
 START_TEST(strerror_3)
 {
-#line 326
+#line 331
 int errnum = -5;
 ck_assert_str_eq(strerror(errnum), s21_strerror(errnum));
 
@@ -641,7 +651,7 @@ END_TEST
 
 START_TEST(strerror_4)
 {
-#line 330
+#line 335
 int errnum = 170;
 ck_assert_str_eq(strerror(errnum), s21_strerror(errnum));
 }
@@ -705,6 +715,7 @@ int main(void)
     tcase_add_test(tc1_1, strstr_2);
     tcase_add_test(tc1_1, strstr_3);
     tcase_add_test(tc1_1, strstr_4);
+    tcase_add_test(tc1_1, strstr_5);
     tcase_add_test(tc1_1, strcat_1);
     tcase_add_test(tc1_1, strcat_2);
     tcase_add_test(tc1_1, strcat_3);

@@ -274,6 +274,11 @@ char str1[] = "jvbnuo5nignte9orh89vher8";
 char str2[] = "nig";
 ck_assert_ptr_eq(strstr(str1, str2), s21_strstr(str1, str2));
 
+#test strstr_5
+char str1[] = "jvbnuo5nignte9orh89vher8";
+char str2[] = "";
+ck_assert_ptr_eq(strstr(str1, str2), s21_strstr(str1, str2));
+
 #test strcat_1
 char dest[20] = "bidon";
 char src[] = "joe";
