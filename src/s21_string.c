@@ -297,3 +297,20 @@ void *s21_to_lower(const char *str) {
     }
     return result - str_length;
 }
+
+void *s21_insert(const char *src, const char *str, size_t start_index) {
+    // Exceptions:
+    // ArgumentNullException: If the String value is null.
+    // ArgumentOutOfRangeException: If Indexvalue is negative or greater than the length of the string.
+    size_t src_length = s21_strlen(src);
+    size_t str_length = s21_strlen(str);
+    char* result = NULL;
+    if ( start_index <= src_length && start_index >= 0 ) {
+        result = (char*)malloc(sizeof(char) * (src_length + str_length + 1));
+        s21_strncpy(result, src, start_index);
+        s21_strncpy(result + start_index, str, str_length);
+        s21_strncpy(result + start_index + str_length, src + start_index, src_length - start_index);
+        *(result + src_length + str_length) = '\0';
+    }
+    return result;
+}
