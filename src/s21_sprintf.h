@@ -4,7 +4,6 @@
 
 typedef struct {
     int plus;
-    int gird;
     int minus;
     int zero;
     int accuracy;
@@ -13,5 +12,4 @@ typedef struct {
     int width;
     int point;
     int type;
-    int star;
 } content;

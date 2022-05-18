@@ -15,16 +15,26 @@ int main() {
 
 int s21_sprintf(char *dest, const char *format, ...) {
     va_list args;
+    content pars;
     va_start(args, format);
     while (*format) {
         if (*format == '%') {
+            pars.plus = 0;
+            pars.minus = 0;
+            pars.zero = 0;
+            pars.accuracy = 0;
+            pars.space = 0;
+            pars.leng = 0;
+            pars.width = 0;
+            pars.point = 0;
+            pars.type = 0;
             format++;
             if (*format == 'd') {
                 int value_int = va_arg(args, int);
-                char sign = value_int + '0';
+                char sign_i = value_int + '0';
                 int len_int_dest = s21_strlen(dest);
                 dest[len_int_dest] = ' ';
-                dest[len_int_dest + 1] = sign;
+                dest[len_int_dest + 1] = sign_i;
                 format++;
             } else if (*format == 'c') {
                 int value_char = va_arg(args, int);
@@ -42,8 +52,14 @@ int s21_sprintf(char *dest, const char *format, ...) {
                     dest[len_str_dest + i] = value_str[i - 1];
                     i++;
                 }
+            } else if (*format == 'u') {
+                size_t value_u = va_arg(args, size_t);
+                int len_u_dest = s21_strlen(dest);
+                char sign_u = value_u + '0';
+                dest[len_u_dest] = ' ';
+                dest[len_u_dest + 1];
+                format++;
             }
-
         }
         format++;
     }
