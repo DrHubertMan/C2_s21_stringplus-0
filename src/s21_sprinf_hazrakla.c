@@ -1,6 +1,7 @@
 #include "s21_sprintf_hazrakla.h"
 #include <stdio.h>
 #include <stdarg.h>
+#include <stdlib.h>
 #include "s21_string.c"
 
 int extract_flags(const char* format, struct format *f);
@@ -10,14 +11,18 @@ int extract_length(const char* format, struct format *f);
 int extract_spec(const char* format, struct format *f);
 int s21_sprintf(char *str, const char *format, ...);
 int s21_atoi(const char* str, int n);
+char* spec_d(struct format f, va_list* args);
+char* spec_string(struct format f, va_list* args);
+char* s21_itoa(int c);
 
 //%[флаги][ширина][.точность][длина]спецификатор
 int main() {
     char str[1024];
-    s21_sprintf(str, "abc %+-.12345fd fg\n");
+    s21_sprintf(str, "abc %d\n", 921411513);
     printf("%s\n", str);
 
-    printf("abc %+-10 fg\n");
+    printf("abc %d\n", 921411513);
+
     return 0;
 }
 
@@ -51,7 +56,9 @@ int s21_sprintf(char *str, const char *format, ...) {
                 s21_strcat(str, local);
                 i = start + 1;
             } else {
-                
+                char* spec = spec_string(f, &args);
+                s21_strcat(str, spec);
+                free(spec);
             }
 
         } else {
@@ -60,13 +67,15 @@ int s21_sprintf(char *str, const char *format, ...) {
             i++;
         }
     }
+    va_end(args);
+    return 0; //что должен возвращать?
     
 }
 
-int extract_flags(const char* format, struct format *f){
+int extract_flags(const char* format, struct format *f) {
     int flags_len = s21_strspn(format, "+- ");
-    for (int i = 0; i < flags_len; i++) {
-        switch(format[i]) {
+    for ( int i = 0; i < flags_len; i++ ) {
+        switch( format[i] ) {
             case '+':
                 f -> plus += 1;
                 break;
@@ -84,21 +93,21 @@ int extract_flags(const char* format, struct format *f){
 }
 
 
-int extract_width(const char* format, struct format *f){
+int extract_width(const char* format, struct format *f) {
     int number_len = s21_strspn(format, "0123456789");
-    if (number_len != 0) {
+    if ( number_len != 0 ) {
         f -> width = s21_atoi(format, number_len);
     }
     return number_len;
 }
 
-int extract_precision(const char* format, struct format *f){
+int extract_precision(const char* format, struct format *f) {
     int dot_found = 0;
     int number_len = 0;
-    if (*format == '.') {
+    if ( *format == '.' ) {
         dot_found = 1;
         number_len = s21_strspn(format + 1, "0123456789");
-        if (number_len == 0) {
+        if ( number_len == 0 ) {
             f -> precision = 0;
         } else {
             f -> precision = s21_atoi(format + 1, number_len);
@@ -107,9 +116,9 @@ int extract_precision(const char* format, struct format *f){
     return dot_found + number_len;
 }
 
-int extract_length(const char* format, struct format *f){
+int extract_length(const char* format, struct format *f) {
     int length_found;
-    switch(*format) {
+    switch( *format ) {
         case 'l':
             length_found = 1;
             f -> length = l_len;
@@ -125,9 +134,9 @@ int extract_length(const char* format, struct format *f){
     return length_found;
 }
 
-int extract_spec(const char* format, struct format *f){
+int extract_spec(const char* format, struct format *f) {
     int spec_found = 1;
-    switch (*format)
+    switch ( *format )
     { 
         case 'c':
             f->spec=c_spec;
@@ -158,12 +167,62 @@ int extract_spec(const char* format, struct format *f){
 }
 
 
-int s21_atoi(const char* str, int n){
+int s21_atoi(const char* str, int n) {
     int result = 0;
     int mult = 1;
-    for (int i = n; i > 0; i--) {
+    for ( int i = n; i > 0; i-- ) {
         result += (str[i - 1] - 48) * mult;
         mult *= 10;
     }
     return result;
+}
+
+char* spec_string(struct format f, va_list* args) {
+    switch ( f.spec ) {
+    case d_spec:
+        spec_d(f, args);
+        break;
+    default:
+        calloc(1, 1);
+        break;
+    }
+}
+
+char* spec_d(struct format f, va_list* args) {
+    char* result = calloc(1000, sizeof(char));
+    int n = va_arg(*args, int);
+    char* str = s21_itoa(n);
+    if ( n < 0 ) {
+        result[0] = '-';
+    }
+    s21_strcat(result, str);
+    free(str);
+    return result;
+}
+
+char* s21_itoa(int c) {
+    if ( c < 0 ) {
+        c = -c;
+    }
+
+    int a = 10;
+    int i = 1;
+    while ( 1 ) {
+        div_t n = div(c, a);
+        if ( n.quot != 0 ) {
+            i += 1;
+            a *= 10;
+        } else {
+            break;
+        }
+    }
+    a = 10;
+    char* str = malloc(sizeof(char) * (i + 1));
+    for ( int j = i - 1; j >= 0; j-- ) {
+        div_t n = div(c, a);
+        str[j] = n.rem + 48;
+        c = n.quot;
+    }
+    str[i] = '\0';
+    return str;
 }
