@@ -2,7 +2,7 @@
 #define WORK
 #ifdef __linux__
 #define MAX_ERRORS 134
-char SPACE[] = "";
+char SPACE[100] = "";
 char STR_ERROR[] = "Unknown error";
 char* ERRORS[]  = { 
 "Success", 
