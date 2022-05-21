@@ -10,18 +10,20 @@ int extract_precision(const char* format, struct format *f);
 int extract_length(const char* format, struct format *f);
 int extract_spec(const char* format, struct format *f);
 int s21_sprintf(char *str, const char *format, ...);
-int s21_atoi(const char* str, int n);
-char* spec_d(struct format f, va_list* args);
 char* spec_string(struct format f, va_list* args);
-char* s21_itoa(int c);
+char* spec_d(struct format f, va_list* args);
+char* spec_s(struct format f, va_list* args);
+char* spec_c(struct format f, va_list* args);
+int s21_atoi(const char* str, int n);
+char* s21_itoa(long int c);
 
 //%[флаги][ширина][.точность][длина]спецификатор
 int main() {
     char str[1024];
-    s21_sprintf(str, "abc %d\n", 921411513);
+    s21_sprintf(str, "%c\n", '324');
     printf("%s\n", str);
 
-    printf("abc %d\n", 921411513);
+    printf("%c\n", -434);
 
     return 0;
 }
@@ -182,6 +184,12 @@ char* spec_string(struct format f, va_list* args) {
     case d_spec:
         spec_d(f, args);
         break;
+    case s_spec:
+        spec_s(f, args);
+        break;
+    case c_spec:
+        spec_c(f, args);
+        break;
     default:
         calloc(1, 1);
         break;
@@ -200,7 +208,7 @@ char* spec_d(struct format f, va_list* args) {
     return result;
 }
 
-char* s21_itoa(int c) {
+char* s21_itoa(long int c) {
     if ( c < 0 ) {
         c = -c;
     }
@@ -224,5 +232,22 @@ char* s21_itoa(int c) {
         c = n.quot;
     }
     str[i] = '\0';
+    return str;
+}
+
+char* spec_s(struct format f, va_list* args) {
+    char* str = va_arg(*args, char*);
+    size_t str_len = s21_strlen(str);
+    char* result = malloc(sizeof(char) * (str_len + 1));
+    s21_strcat(result, str);
+    result[str_len + 1] = '\0';
+    return result;
+}
+
+char* spec_c(struct format f, va_list* args) {
+    char* str = malloc(sizeof(char) * 2);
+    int c = va_arg(*args, int);
+    str[0] = c;
+    str[1] = '\0';
     return str;
 }
