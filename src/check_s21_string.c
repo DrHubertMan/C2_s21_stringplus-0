@@ -126,7 +126,7 @@ START_TEST(strncat_1)
 #line 67
 char dest[10] = "bidon";
 char src[10] = "joe";
-size_t n = 4;
+size_t n = 3;
 ck_assert_ptr_eq(strncat(dest, src, n), s21_strncat(dest, src, n));
 
 }
@@ -137,7 +137,7 @@ START_TEST(strncat_2)
 #line 73
 char dest[10] = "4:20";
 char src[10] = "4:19";
-size_t n = 4;
+size_t n = 3;
 ck_assert_ptr_eq(strncat(dest, src, n), s21_strncat(dest, src, n));
 
 }
