@@ -11,18 +11,21 @@ gcov_report: test_run
 test_run: test
 	./test.out
 
-test: libs21_string.a check_s21_string.o
-	$(CC) -o test.out -coverage check_s21_string.o -lcheck -L. -ls21_string
+test: s21_string.a check_s21_string.o s21_sprintf.o
+	$(CC) -o test.out -coverage check_s21_string.o s21_sprintf.o  -lcheck -L. -ls21_string -fsanitize=address
 
-libs21_string.a: s21_string.o
+s21_string.a: s21_string.o
 	ar rc libs21_string.a s21_string.o
 	ranlib libs21_string.a
 
 s21_string.o: s21_string.c s21_string.h
-	$(CC) $(CFLAGS) s21_string.c -lcheck
+	$(CC) $(CFLAGS) -fsanitize=address s21_string.c -lcheck
+
+s21_sprintf.o: s21_sprintf.h s21_sprintf.c
+	$(CC) $(CFLAGS) -fsanitize=address s21_sprintf.c -lcheck
 
 check_s21_string.o: check_s21_string.c
-	$(CC) -Wall -Werror -Wextra -c check_s21_string.c 
+	$(CC) -Wall -Werror -Wextra -fsanitize=address -c check_s21_string.c 
 
 check_s21_string.c: check_s21_string.check
 	checkmk check_s21_string.check > check_s21_string.c

@@ -1,6 +1,8 @@
 #include <string.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include "s21_string.h"
+#include "s21_sprintf.h"
 
 #test memmove_1
 char dest[] = "123";

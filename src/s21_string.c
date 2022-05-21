@@ -110,7 +110,7 @@ int s21_strncmp(const char *str1, const char *str2, size_t n) {
     int result = 0;
     size_t lenght_str1 = s21_strlen(str1);
     size_t length_str2 = s21_strlen(str2);
-    //находим максимальную на тот случай, если n > какой-либо из длин
+    // находим максимальную на тот случай, если n > какой-либо из длин
     size_t max_length = lenght_str1 > length_str2 ? lenght_str1 : length_str2;
     if ( n > max_length ) {
         result = s21_memcmp(str1, str2, max_length);
@@ -197,7 +197,7 @@ char *s21_strpbrk(const char *str1, const char *str2) {
 // 17
 char *s21_strrchr(const char* str, int c) {
     const char f = c;
-    const char *buf = str;
+    const char *buf = s21_NULL;
     for (; *str != '\0'; str++) {
         if (*str == f) {
             buf = str;
@@ -217,7 +217,7 @@ size_t s21_strspn(const char *str1, const char *str2) {
         } else {
             break;
         }
-    } 
+    }
     return result;
 }
 
