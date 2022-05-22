@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall -Werror -Wextra -c -fprofile-arcs --coverage
+CFLAGS = -Wall -Werror -Wextra -c -fprofile-arcs -ftest-coverage
 
 all: check_s21_string.c check_s21_string.o s21_sprintf.o s21_string.o s21_string.a test test_run gcov_report
 
@@ -11,21 +11,18 @@ gcov_report: test_run
 test_run: test
 	./test.out
 
-test: s21_string.a check_s21_string.o s21_sprintf.o
-	$(CC) --coverage -o test.out check_s21_string.o s21_sprintf.o  -lcheck -L. libs21_string.a -g
+test: s21_string.a check_s21_string.o
+	$(CC) --coverage -o test.out check_s21_string.o  -lcheck -L. -ls21_string -fsanitize=address
 
 s21_string.a: s21_string.o check_s21_string.c
 	ar rc libs21_string.a s21_string.o
 	ranlib libs21_string.a
 
 s21_string.o: s21_string.c s21_string.h
-	$(CC) $(CFLAGS) -g s21_string.c -lcheck
-
-s21_sprintf.o: s21_sprintf.h s21_sprintf.c
-	$(CC) $(CFLAGS) -g s21_sprintf.c -lcheck
+	$(CC) $(CFLAGS) s21_string.c -lcheck -fsanitize=address
 
 check_s21_string.o: check_s21_string.c
-	$(CC) -Wall -Werror -Wextra -g -c check_s21_string.c 
+	$(CC) -Wall -Werror -Wextra -c check_s21_string.c -fsanitize=address
 
 check_s21_string.c: check_s21_string.check
 	checkmk check_s21_string.check > check_s21_string.c
