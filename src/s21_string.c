@@ -153,6 +153,7 @@ size_t s21_strcspn(const char *str1, const char *str2) {
     return min_length;
 }
 
+/*
 // 14
 char *s21_strerror(int errnum) {
     char* error = s21_NULL;
@@ -163,7 +164,7 @@ char *s21_strerror(int errnum) {
         error = SPACE;
     }
     return error;
-}
+}*/
 
 // 15
 size_t s21_strlen(const char *str) {
