@@ -27,8 +27,8 @@ char* adjusted_precision_for_string(struct format f, const char* str);
 int main() {
     long int n = 10;
     char string[] = "abc";
-    float f = 0.123;
-    char format[] = "'%+5.3d '%10s' %f'\n";
+    double f = 1.99919;
+    char format[] = "'%+5.3d '%10s' '%.4f'\n";
 
     char str[1024];
     s21_sprintf(str, format, n, string, f);
@@ -207,9 +207,9 @@ char* spec_string(struct format f, va_list* args) {
     case c_spec:
         result = spec_c(f, args);
         break;
-    // case f_spec:
-        // result = spec_f(f, args);
-        // break;
+    case f_spec:
+        result = spec_f(f, args);
+        break;
     case percent_spec:
         result = calloc(2, sizeof(char));
         result[0] = '%';
@@ -436,4 +436,60 @@ char* spec_f(struct format f, va_list* args) {
         f.precision = 6;
     }
 
+    double rounder = 0.5;
+    int rounder_n = f.precision;
+    while (rounder_n > 0) {
+        rounder /= 10;
+        rounder_n --;
+    }
+
+    int sign;
+    double n = va_arg(*args, double);
+
+    if (n < 0) {
+        sign = -1;
+    } else {
+        sign = 1;
+    }
+
+    n = n * sign + rounder;
+
+    long integer = (long) n;
+    double remain = n - integer;
+
+    char* integer_str = s21_itoa(integer);
+    size_t integer_len = s21_strlen(integer_str);
+
+    char* remain_str = calloc(f.precision + 1, sizeof(char));
+
+    int i = 0;
+    while(i < f.precision) {
+        double multiplied_remain = remain * 10;
+        char num = (int) multiplied_remain + 48;
+        remain_str[i] = num;
+        remain = multiplied_remain - (int) multiplied_remain;
+        i++;
+    }
+
+    char* result = calloc(integer_len + f.precision + 3, sizeof(char));
+
+
+    if ( sign == -1 ) {
+        result[0] = '-';
+    } else if (f.plus == 0 && f.space > 0) {
+        result[0] = ' ';
+    } else if (f.plus > 0) {
+        result[0] = '+';
+    }
+
+    s21_strcat(result, integer_str);
+    if (f.precision != 0) {
+        result[s21_strlen(result)] = '.';
+    }
+    s21_strcat(result, remain_str);
+
+    free(integer_str);
+    free(remain_str);
+
+    return result;
 }
