@@ -314,3 +314,30 @@ void *s21_insert(const char *src, const char *str, size_t start_index) {
     }
     return result;
 }
+
+void *s21_trim(const char *src, const char *trim_chars) {
+    size_t src_length = s21_strlen(src);
+    char* result = NULL;
+    size_t spn = s21_strspn(src, trim_chars);
+    size_t spn_from_end = s21_from_end_strspn(src, trim_chars);
+    if ( s21_strspn > 0 && s21_from_end_strspn > 0 ) {
+        result = (char*)calloc(src_length + 1, sizeof(char));
+        s21_strncpy(result, src + spn, src_length - spn_from_end - spn);
+    }
+
+    return result;
+}
+
+size_t s21_from_end_strspn(const char *str1, const char *str2) {
+    size_t result = 0;
+    size_t str1_length = s21_strlen(str1);
+    size_t str2_length = s21_strlen(str2);
+    for ( size_t i = str1_length - 1; i > 0; i-- ) {
+        if (s21_memchr(str2, str1[i], str2_length) != NULL) {
+            result += 1;
+        } else {
+            break;
+        }
+    } 
+    return result;
+}

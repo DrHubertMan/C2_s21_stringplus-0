@@ -26,4 +26,6 @@ char *s21_strerror(int errnum);
 void *s21_to_upper(const char *str);
 void *s21_to_lower(const char *str);
 void *s21_insert(const char *src, const char *str, size_t start_index);
+void *s21_trim(const char *src, const char *trim_chars);
+size_t s21_from_end_strspn(const char *str1, const char *str2);
 #endif  // MAKROS 

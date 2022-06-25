@@ -4,8 +4,10 @@
 
 
 int main() {
-    char src[]  = "abcde";
-    char * result = s21_insert(src, "322", 0);
+    char src[] = ".....'My name is '****";
+    char trim_chars[] = "*.";
+    
+    char* result = s21_trim(src, trim_chars);
     if ( result == NULL ) {
         printf("%s\n", "NULL");
     } else {
