@@ -1,11 +1,11 @@
 #include "s21_sprintf.h"
 
 int s21_sprintf(char *str, const char *format, ...) {
-    str[0] = '\0'; //для корректной работы strcat
+    str[0] = '\0';  //  для корректной работы strcat
     va_list args;
     va_start(args, format);
-    size_t format_length = s21_strlen(format);
-    for (size_t i = 0; i < format_length;) {
+    s21_size_t format_length = s21_strlen(format);
+    for (s21_size_t i = 0; i < format_length;) {
         if ( format[i] == '%' ) {
             int start = i;
 
@@ -42,13 +42,13 @@ int s21_sprintf(char *str, const char *format, ...) {
         }
     }
     va_end(args);
-    return s21_strlen(str); 
+    return s21_strlen(str);
 }
 
 int extract_flags(const char* format, struct format *f) {
     int flags_len = s21_strspn(format, "+- ");
     for ( int i = 0; i < flags_len; i++ ) {
-        switch( format[i] ) {
+        switch ( format[i] ) {
             case '+':
                 f -> plus += 1;
                 break;
@@ -59,7 +59,7 @@ int extract_flags(const char* format, struct format *f) {
                 f -> space += 1;
                 break;
             default:
-                break; 
+                break;
         }
     }
     return flags_len;
@@ -91,7 +91,7 @@ int extract_precision(const char* format, struct format *f) {
 
 int extract_length(const char* format, struct format *f) {
     int length_found;
-    switch( *format ) {
+    switch ( *format ) {
         case 'l':
             length_found = 1;
             f -> length = l_len;
@@ -109,28 +109,27 @@ int extract_length(const char* format, struct format *f) {
 
 int extract_spec(const char* format, struct format *f) {
     int spec_found = 1;
-    switch ( *format )
-    { 
+    switch ( *format ) {
         case 'c':
-            f->spec=c_spec;
+            f->spec = c_spec;
             break;
         case 'd':
-            f->spec=d_spec;
+            f->spec = d_spec;
             break;
         case 'i':
-            f->spec=i_spec;
+            f->spec = i_spec;
             break;
         case 'f':
-            f->spec=f_spec;
+            f->spec = f_spec;
             break;
         case 's':
-            f->spec=s_spec;
+            f->spec = s_spec;
             break;
         case 'u':
-            f->spec=u_spec;
+            f->spec = u_spec;
             break;
         case '%':
-            f->spec=percent_spec;
+            f->spec = percent_spec;
             break;
         default:
             spec_found = 0;
@@ -181,7 +180,7 @@ char* spec_string(struct format f, va_list* args) {
     }
     char* adjusted_result;
     if ( f.spec != percent_spec ) {
-        adjusted_result= adjusted_width(f, result);
+        adjusted_result = adjusted_width(f, result);
         free(result);
     } else {
         adjusted_result = result;
@@ -205,7 +204,7 @@ char* spec_d(struct format f, va_list* args) {
     char* str_with_precision = adjusted_precision_for_int(f, str);
     free(str);
 
-    size_t number_len = s21_strlen(str_with_precision);
+    s21_size_t number_len = s21_strlen(str_with_precision);
     char* result = calloc(number_len + 2, sizeof(char));
 
     if ( n < 0 ) {
@@ -231,7 +230,7 @@ char* s21_itoa(long int c) {
     long int i = 1;
     long int tmp = c;
 
-    while ( 1 ) {
+    while (1) {
         long int quot = tmp / a;
         if ( quot != 0 ) {
             i += 1;
@@ -256,7 +255,7 @@ char* s21_itoa(long int c) {
 }
 
 
-char* spec_u(struct format f, va_list* args){
+char* spec_u(struct format f, va_list* args) {
     unsigned long int n;
 
     if (f.length == h_len) {
@@ -266,24 +265,18 @@ char* spec_u(struct format f, va_list* args){
     } else {
         n = va_arg(*args, unsigned int);
     }
-
     char* str = s21_itoa_unsigned(n);
-
     char* str_with_precision = adjusted_precision_for_int(f, str);
     free(str);
-
-    size_t number_len = s21_strlen(str_with_precision);
+    s21_size_t number_len = s21_strlen(str_with_precision);
     char* result = calloc(number_len + 2, sizeof(char));
-
     if (f.plus == 0 && f.space > 0) {
         result[0] = ' ';
     } else if (f.plus > 0) {
         result[0] = '+';
     }
-
     s21_strcat(result, str_with_precision);
     free(str_with_precision);
-
     return result;
 }
 
@@ -291,8 +284,7 @@ char* s21_itoa_unsigned(unsigned long int c) {
     unsigned long int a = 10;
     unsigned long int i = 1;
     unsigned long int tmp = c;
-
-    while ( 1 ) {
+    while (1) {
         unsigned long int quot = tmp / a;
         if ( quot != 0 ) {
             i += 1;
@@ -301,9 +293,7 @@ char* s21_itoa_unsigned(unsigned long int c) {
             break;
         }
     }
-
     char* str = calloc((i + 1), sizeof(char));
-
     tmp = c;
     for ( int j = i - 1; j >= 0; j-- ) {
         unsigned long int rem = tmp % a;
@@ -311,7 +301,6 @@ char* s21_itoa_unsigned(unsigned long int c) {
         str[j] = rem + 48;
         tmp = tmp / a;
     }
-    
     str[i] = '\0';
     return str;
 }
@@ -330,16 +319,17 @@ char* spec_c(va_list* args) {
 }
 
 char* adjusted_width(struct format f, const char* str) {
-    size_t str_len = s21_strlen(str);
+    s21_size_t str_len = s21_strlen(str);
     char* result;
     if (f.width == 0) {
         result = calloc(str_len + 1, sizeof(char));
         s21_strcat(result, str);
     } else {
-        size_t result_length = str_len > (size_t)f.width ? str_len : (size_t)f.width;
-        size_t diff_len = str_len > (size_t)f.width ? str_len - (size_t)f.width : (size_t)f.width - str_len;
+        s21_size_t result_length = str_len > (s21_size_t)f.width ? str_len : (s21_size_t)f.width;
+        s21_size_t diff_len = str_len > (s21_size_t)f.width ? str_len - (s21_size_t)f.width : \
+            (s21_size_t)f.width - str_len;
         result = calloc(result_length + 1, sizeof(char));
-        if (str_len > (size_t)f.width) {
+        if (str_len > (s21_size_t)f.width) {
             s21_strcat(result, str);
         } else if (f.minus == 0) {
             s21_memset(result, ' ', diff_len);
@@ -353,18 +343,19 @@ char* adjusted_width(struct format f, const char* str) {
 }
 
 char* adjusted_precision_for_int(struct format f, const char* str) {
-    size_t str_len = s21_strlen(str);
+    s21_size_t str_len = s21_strlen(str);
     char* result;
     if (f.precision == -1) {
         result = calloc(str_len + 1, sizeof(char));
         s21_strcat(result, str);
     } else {
-        size_t result_length = str_len > (size_t)f.precision ? str_len : (size_t)f.precision;
-        size_t diff_len = str_len > (size_t)f.precision ? str_len - (size_t)f.precision : (size_t)f.precision - str_len;
+        s21_size_t result_length = str_len > (s21_size_t)f.precision ? str_len : (s21_size_t)f.precision;
+        s21_size_t diff_len = str_len > (s21_size_t)f.precision ? str_len - (s21_size_t)f.precision : \
+            (s21_size_t)f.precision - str_len;
         result = calloc(result_length + 1, sizeof(char));
         if (f.precision == 0 && str_len == 1 && str[0] == '0') {
             // precision 0 для числа 0 возвращает пустую строку, ничего не делаем с result
-        } else if (str_len < (size_t)f.precision){
+        } else if (str_len < (s21_size_t)f.precision) {
             s21_memset(result, '0', diff_len);
             s21_strcat(result, str);
         } else {
@@ -376,13 +367,13 @@ char* adjusted_precision_for_int(struct format f, const char* str) {
 
 
 char* adjusted_precision_for_string(struct format f, const char* str) {
-    size_t str_len = s21_strlen(str);
+    s21_size_t str_len = s21_strlen(str);
     char* result;
     if (f.precision == -1) {
         result = calloc(str_len + 1, sizeof(char));
         s21_strcat(result, str);
     } else {
-        size_t result_length = str_len < (size_t)f.precision ? str_len : (size_t)f.precision;
+        s21_size_t result_length = str_len < (s21_size_t)f.precision ? str_len : (s21_size_t)f.precision;
         result = calloc(result_length + 1, sizeof(char));
         s21_strncat(result, str, result_length);
     }
@@ -399,7 +390,7 @@ char* spec_f(struct format f, va_list* args) {
     int rounder_n = f.precision;
     while (rounder_n > 0) {
         rounder /= 10;
-        rounder_n --;
+        rounder_n--;
     }
 
     int sign;
@@ -417,12 +408,12 @@ char* spec_f(struct format f, va_list* args) {
     double remain = n - integer;
 
     char* integer_str = s21_itoa(integer);
-    size_t integer_len = s21_strlen(integer_str);
+    s21_size_t integer_len = s21_strlen(integer_str);
 
     char* remain_str = calloc(f.precision + 1, sizeof(char));
 
     int i = 0;
-    while(i < f.precision) {
+    while (i < f.precision) {
         double multiplied_remain = remain * 10;
         char num = (int) multiplied_remain + 48;
         remain_str[i] = num;

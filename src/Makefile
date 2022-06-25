@@ -32,6 +32,6 @@ check_s21_string.c: check_s21_string.check
 	checkmk check_s21_string.check > check_s21_string.c
 
 clean:
-	rm -rf *.o *.gcno *.gcda *.out *.info *.a *.gcov report check_s21_string.c
+	rm -rf *.o *.gcno *.gcda *.info *.out *.a *.gcov report check_s21_string.c
 
 rebuild: clean all
