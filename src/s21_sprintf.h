@@ -1,6 +1,7 @@
 #ifndef SRC_S21_SPRINTF_H_
 #define SRC_S21_SPRINTF_H_
 #include <stdarg.h>
+#include "s21_string.h"
 // Спецификаторы: c, d, i, f, s, u, %
     // c - Символ,
     // d - Знаковое десятичное целое число,
@@ -76,9 +77,18 @@ int extract_precision(const char* format, struct format *f);
 int extract_length(const char* format, struct format *f);
 int extract_spec(const char* format, struct format *f);
 int s21_sprintf(char *str, const char *format, ...);
-int s21_atoi(const char* str, int n);
-char* spec_d(va_list* args);
 char* spec_string(struct format f, va_list* args);
-char* s21_itoa(int c);
+char* spec_d(struct format f, va_list* args);
+char* spec_u(struct format f, va_list* args);
+char* spec_s(struct format f, va_list* args);
+char* spec_c(va_list* args);
+char* spec_f(struct format f, va_list* args);
+int s21_atoi(const char* str, int n);
+char* s21_itoa(long int c);
+char* s21_itoa_unsigned(unsigned long int c);
+char* adjusted_width(struct format f, const char* str);
+char* adjusted_precision_for_int(struct format f, const char* str);
+char* adjusted_precision_for_string(struct format f, const char* str);
+
 
 #endif  // SRC_S21_SPRINTF_H_

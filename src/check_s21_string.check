@@ -1254,22 +1254,25 @@ int n = 0;
 ck_assert_str_eq(memcpy(str1, str2, n), s21_memcpy(str3, str2, n));
 
 #test strncat_1
-char dest[10] = "bidon";
+char dest1[10] = "bidon";
+char dest2[10] = "bidon";
 char src[10] = "joe";
 size_t n = 3;
-ck_assert_ptr_eq(strncat(dest, src, n), s21_strncat(dest, src, n));
+ck_assert_str_eq(strncat(dest1, src, n), s21_strncat(dest2, src, n));
 
 #test strncat_2
-char dest[10] = "4:20";
+char dest1[10] = "4:20";
+char dest2[10] = "4:20";
 char src[10] = "4:19";
 size_t n = 3;
-ck_assert_ptr_eq(strncat(dest, src, n), s21_strncat(dest, src, n));
+ck_assert_str_eq(strncat(dest1, src, n), s21_strncat(dest2, src, n));
 
 #test strncat_3
-char dest[50] = "pants";
+char dest1[50] = "pants";
+char dest2[50] = "pants";
 char src[20] = "za 40 griven";
 size_t n = 5;
-ck_assert_ptr_eq(strncat(dest, src, n), s21_strncat(dest, src, n));
+ck_assert_str_eq(strncat(dest1, src, n), s21_strncat(dest2, src, n));
 
 #test strncat_4
 char dest[30] = "435564536";
@@ -1379,7 +1382,7 @@ ck_assert_str_eq(strncat(str1, str3, n), s21_strncat(str2, str3, n));
 char str1[9] = "ab\0c";
 char str2[9] = "ab\0c";
 char str3[] = "def";
-int n = -4;
+size_t n = -4;
 ck_assert_str_eq(strncat(str1, str3, n), s21_strncat(str2, str3, n));
 
 #test strncat_20
@@ -4982,3 +4985,685 @@ char str1[] = "a231546yutiljkhgtyre565786oiu;jlkhb12";
 char str2[] = "12333333333333333333333333333333333ab";
 ck_assert_int_eq(strspn(str1, str2), s21_strspn(str1, str2));
 
+#test to_upper_1
+char str1[] = "abc";
+char *str2 = s21_to_upper(str1);
+ck_assert_str_eq(str2, "ABC");
+free(str2);
+
+#test to_upper_2
+char str1[] = "aBc";
+char *str2 = s21_to_upper(str1);
+ck_assert_str_eq(str2, "ABC");
+free(str2);
+
+#test to_upper_3
+char str1[] = "abC";
+char *str2 = s21_to_upper(str1);
+ck_assert_str_eq(str2, "ABC");
+free(str2);
+
+#test to_upper_4
+char str1[] = "ABC";
+char *str2 = s21_to_upper(str1);
+ck_assert_str_eq(str2, "ABC");
+free(str2);
+
+#test to_upper_5
+char str1[] = "123";
+char *str2 = s21_to_upper(str1);
+ck_assert_str_eq(str2, "123");
+free(str2);
+
+#test to_upper_6
+char str1[] = "123abc";
+char *str2 = s21_to_upper(str1);
+ck_assert_str_eq(str2, "123ABC");
+free(str2);
+
+#test to_upper_7
+char str1[] = "aBaBc";
+char *str2 = s21_to_upper(str1);
+ck_assert_str_eq(str2, "ABABC");
+free(str2);
+
+#test to_upper_8
+char str1[] = ".,/.,/.,";
+char *str2 = s21_to_upper(str1);
+ck_assert_str_eq(str2, ".,/.,/.,");
+free(str2);
+
+#test to_upper_9
+char str1[] = "09876abc";
+char *str2 = s21_to_upper(str1);
+ck_assert_str_eq(str2, "09876ABC");
+free(str2);
+
+#test to_upper_10
+char str1[] = "abc123";
+char *str2 = s21_to_upper(str1);
+ck_assert_str_eq(str2, "ABC123");
+free(str2);
+
+#test to_upper_11
+char str1[] = " ";
+char *str2 = s21_to_upper(str1);
+ck_assert_str_eq(str2, " ");
+free(str2);
+
+#test to_upper_12
+char str1[] = "";
+char *str2 = s21_to_upper(str1);
+ck_assert_str_eq(str2, "");
+free(str2);
+
+#test to_upper_13
+char str1[] = "a1a1a1";
+char *str2 = s21_to_upper(str1);
+ck_assert_str_eq(str2, "A1A1A1");
+free(str2);
+
+#test to_upper_14
+char str1[] = " a1a1a1";
+char *str2 = s21_to_upper(str1);
+ck_assert_str_eq(str2, " A1A1A1");
+free(str2);
+
+#test to_upper_15
+char str1[] = "a1a1a1 ";
+char *str2 = s21_to_upper(str1);
+ck_assert_str_eq(str2, "A1A1A1 ");
+free(str2);
+
+#test to_upper_16
+char str1[] = "Aa1a1a1";
+char *str2 = s21_to_upper(str1);
+ck_assert_str_eq(str2, "AA1A1A1");
+free(str2);
+
+#test to_upper_17
+char str1[] = "a1a1a1A";
+char *str2 = s21_to_upper(str1);
+ck_assert_str_eq(str2, "A1A1A1A");
+free(str2);
+
+#test to_upper_18
+char str1[] = "a1a1\0a1";
+char *str2 = s21_to_upper(str1);
+ck_assert_str_eq(str2, "A1A1\0A1");
+free(str2);
+
+#test to_upper_19
+char str1[] = "a1a\n1a1";
+char *str2 = s21_to_upper(str1);
+ck_assert_str_eq(str2, "A1A\n1A1");
+free(str2);
+
+#test to_upper_20
+char str1[] = "abcdefghijklmnopqrstuvwxyz";
+char *str2 = s21_to_upper(str1);
+ck_assert_str_eq(str2, "ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+free(str2);
+
+#test to_upper_21
+char str1[] = ")(*&^YTRYUIKJHWR<LR3.,tmwnrg.";
+char *str2 = s21_to_upper(str1);
+ck_assert_str_eq(str2, ")(*&^YTRYUIKJHWR<LR3.,TMWNRG.");
+free(str2);
+
+#test to_upper_22
+char str1[] = " ";
+char *str2 = s21_to_upper(str1);
+ck_assert_str_eq(str2, " ");
+free(str2);
+
+#test to_upper_23
+char str1[] = "ABC";
+char *str2 = s21_to_upper(str1);
+ck_assert_str_eq(str2, "ABC");
+free(str2);
+
+#test to_upper_24
+char str1[] = "_az{";
+char *str2 = s21_to_upper(str1);
+ck_assert_str_eq(str2, "_AZ{");
+free(str2);
+
+#test to_upper_25
+char str1[] = "SDFGHJKLPOIUYTREWQWERTYUIOP[OIUYTRFGHJKLJHBVNMASDFGHJKLPOIUYTREWQWERTYUIO";
+char *str2 = s21_to_upper(str1);
+ck_assert_str_eq(str2, "SDFGHJKLPOIUYTREWQWERTYUIOP[OIUYTRFGHJKLJHBVNMASDFGHJKLPOIUYTREWQWERTYUIO");
+free(str2);
+
+
+#test to_lower_1
+char str1[] = "ABC";
+char *str2 = s21_to_lower(str1);
+ck_assert_str_eq(str2, "abc");
+free(str2);
+
+#test to_lower_2
+char str1[] = "aBc";
+char *str2 = s21_to_lower(str1);
+ck_assert_str_eq(str2, "abc");
+free(str2);
+
+#test to_lower_3
+char str1[] = "abC";
+char *str2 = s21_to_lower(str1);
+ck_assert_str_eq(str2, "abc");
+free(str2);
+
+#test to_lower_4
+char str1[] = "ABC";
+char *str2 = s21_to_lower(str1);
+ck_assert_str_eq(str2, "abc");
+free(str2);
+
+#test to_lower_5
+char str1[] = "123";
+char *str2 = s21_to_lower(str1);
+ck_assert_str_eq(str2, "123");
+free(str2);
+
+#test to_lower_6
+char str1[] = "123ABC";
+char *str2 = s21_to_lower(str1);
+ck_assert_str_eq(str2, "123abc");
+free(str2);
+
+#test to_lower_7
+char str1[] = "aBaBc";
+char *str2 = s21_to_lower(str1);
+ck_assert_str_eq(str2, "ababc");
+free(str2);
+
+#test to_lower_8
+char str1[] = ".,/.,/.,";
+char *str2 = s21_to_lower(str1);
+ck_assert_str_eq(str2, ".,/.,/.,");
+free(str2);
+
+#test to_lower_9
+char str1[] = "09876ABC";
+char *str2 = s21_to_lower(str1);
+ck_assert_str_eq(str2, "09876abc");
+free(str2);
+
+#test to_lower_10
+char str1[] = "ABC123";
+char *str2 = s21_to_lower(str1);
+ck_assert_str_eq(str2, "abc123");
+free(str2);
+
+#test to_lower_11
+char str1[] = " ";
+char *str2 = s21_to_lower(str1);
+ck_assert_str_eq(str2, " ");
+free(str2);
+
+#test to_lower_12
+char str1[] = "";
+char *str2 = s21_to_lower(str1);
+ck_assert_str_eq(str2, "");
+free(str2);
+
+#test to_lower_13
+char str1[] = "A1A1A1";
+char *str2 = s21_to_lower(str1);
+ck_assert_str_eq(str2, "a1a1a1");
+free(str2);
+
+#test to_lower_14
+char str1[] = " A1A1A1";
+char *str2 = s21_to_lower(str1);
+ck_assert_str_eq(str2, " a1a1a1");
+free(str2);
+
+#test to_lower_15
+char str1[] = "A1A1A1 ";
+char *str2 = s21_to_lower(str1);
+ck_assert_str_eq(str2, "a1a1a1 ");
+free(str2);
+
+#test to_lower_16
+char str1[] = "AA1A1A1";
+char *str2 = s21_to_lower(str1);
+ck_assert_str_eq(str2, "aa1a1a1");
+free(str2);
+
+#test to_lower_17
+char str1[] = "A1a1A1A";
+char *str2 = s21_to_lower(str1);
+ck_assert_str_eq(str2, "a1a1a1a");
+free(str2);
+
+#test to_lower_18
+char str1[] = "A1A1\0a1";
+char *str2 = s21_to_lower(str1);
+ck_assert_str_eq(str2, "a1a1\0a1");
+free(str2);
+
+#test to_lower_19
+char str1[] = "A1a\n1A1";
+char *str2 = s21_to_lower(str1);
+ck_assert_str_eq(str2, "a1a\n1a1");
+free(str2);
+
+#test to_lower_20
+char str1[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+char *str2 = s21_to_lower(str1);
+ck_assert_str_eq(str2, "abcdefghijklmnopqrstuvwxyz");
+free(str2);
+
+#test insert_1
+char str1[] = "abc";
+char str2[] = "def";
+int n = 3;
+char *str3 = s21_insert(str1, str2, n);
+ck_assert_str_eq(str3, "abcdef");
+free(str3);
+
+#test insert_2
+char str1[] = "abc";
+char str2[] = "def";
+int n = 2;
+char *str3 = s21_insert(str1, str2, n);
+ck_assert_str_eq(str3, "abdefc");
+free(str3);
+
+#test insert_3
+char str1[] = "abc";
+char str2[] = "def";
+int n = 1;
+char *str3 = s21_insert(str1, str2, n);
+ck_assert_str_eq(str3, "adefbc");
+free(str3);
+
+#test insert_4
+char str1[] = "abc";
+char str2[] = "def";
+int n = 0;
+char *str3 = s21_insert(str1, str2, n);
+ck_assert_str_eq(str3, "defabc");
+free(str3);
+
+#test insert_5
+char str1[] = "abcdefghijkl123456789";
+char str2[] = "xyz";
+int n = 5;
+char *str3 = s21_insert(str1, str2, n);
+ck_assert_str_eq(str3, "abcdexyzfghijkl123456789");
+free(str3);
+
+#test insert_6
+char str1[] = "abc";
+char str2[] = "";
+int n = 0;
+char *str3 = s21_insert(str1, str2, n);
+ck_assert_str_eq(str3, "abc");
+free(str3);
+
+#test insert_7
+char str1[] = "abc";
+char str2[] = "";
+int n = 1;
+char *str3 = s21_insert(str1, str2, n);
+ck_assert_str_eq(str3, "abc");
+free(str3);
+
+#test insert_8
+char str1[] = "abc";
+char str2[] = "";
+int n = 3;
+char *str3 = s21_insert(str1, str2, n);
+ck_assert_str_eq(str3, "abc");
+free(str3);
+
+#test insert_9
+char str1[] = "";
+char str2[] = "abc";
+int n = 1;
+char *str3 = s21_insert(str1, str2, n);
+ck_assert_pstr_eq(str3, s21_NULL);
+free(str3);
+
+#test insert_10
+char str1[] = "";
+char str2[] = "abc";
+int n = 0;
+char *str3 = s21_insert(str1, str2, n);
+ck_assert_str_eq(str3, "abc");
+free(str3);
+
+#test insert_11
+char str1[] = "";
+char str2[] = "abc";
+int n = 3;
+char *str3 = s21_insert(str1, str2, n);
+ck_assert_pstr_eq(str3, s21_NULL);
+free(str3);
+
+#test insert_12
+char str1[] = "";
+char str2[] = "";
+int n = 3;
+char *str3 = s21_insert(str1, str2, n);
+ck_assert_pstr_eq(str3, s21_NULL);
+free(str3);
+
+#test insert_13
+char str1[] = "";
+char str2[] = "";
+int n = 0;
+char *str3 = s21_insert(str1, str2, n);
+ck_assert_str_eq(str3, "");
+free(str3);
+
+#test sprintf_1
+char test_original[1024];
+char test_your[1024];
+sprintf(test_original, "Hello %%");
+s21_sprintf(test_your, "Hello %%");
+ck_assert_str_eq(test_original, test_your);
+
+#test sprintf_2
+char test_original[1024];
+char test_your[1024];
+sprintf(test_original, "Hello 2022 World");
+s21_sprintf(test_your, "Hello 2022 World");
+ck_assert_str_eq(test_original, test_your);
+
+#test sprintf_3
+char test_original[1024];
+char test_your[1024];
+sprintf(test_original, "Hello %c", 'W');
+s21_sprintf(test_your, "Hello %c", 'W');
+ck_assert_str_eq(test_original, test_your);
+
+#test sprintf_4
+char test_original[1024];
+char test_your[1024];
+sprintf(test_original, "Hello %-5c", 'W');
+s21_sprintf(test_your, "Hello %-5c", 'W');
+ck_assert_str_eq(test_original, test_your);
+
+#test sprintf_5
+char test_original[1024];
+char test_your[1024];
+sprintf(test_original, "Hello %5c", 'W');
+s21_sprintf(test_your, "Hello %5c", 'W');
+ck_assert_str_eq(test_original, test_your);
+
+#test sprintf_
+char test_original[1024];
+char test_your[1024];
+sprintf(test_original, "Hello %-c", 'W');
+s21_sprintf(test_your, "Hello %-c", 'W');
+ck_assert_str_eq(test_original, test_your);
+
+#test sprintf_7
+char test_original[1024];
+char test_your[1024];
+sprintf(test_original, "Hello %c", 'W');
+s21_sprintf(test_your, "Hello %c", 'W');
+ck_assert_str_eq(test_original, test_your);
+
+#test sprintf_8
+char test_original[1024];
+char test_your[1024];
+sprintf(test_original, "%cHello %c", 's', 'W');
+s21_sprintf(test_your, "%cHello %c", 's', 'W');
+ck_assert_str_eq(test_original, test_your);
+
+#test sprintf_9
+char test_original[1024];
+char test_your[1024];
+sprintf(test_original, "He%cllo %-5c", 's', 'W');
+s21_sprintf(test_your, "He%cllo %-5c", 's', 'W');
+ck_assert_str_eq(test_original, test_your);
+
+#test sprintf_10
+char test_original[1024];
+char test_your[1024];
+sprintf(test_original, "%5cHello %5c", 's', 'W');
+s21_sprintf(test_your, "%5cHello %5c", 's', 'W');
+ck_assert_str_eq(test_original, test_your);
+
+#test sprintf_11
+char test_original[1024];
+char test_your[1024];
+sprintf(test_original, "%-10cHello %-c", 's', 'W');
+s21_sprintf(test_your, "%-10cHello %-c", 's', 'W');
+ck_assert_str_eq(test_original, test_your);
+
+#test sprintf_12
+char test_original[1024];
+char test_your[1024];
+sprintf(test_original, "He%%llo %c", 'W');
+s21_sprintf(test_your, "He%%llo %c", 'W');
+ck_assert_str_eq(test_original, test_your);
+
+#test sprintf_13
+char test_original[1024];
+char test_your[1024];
+sprintf(test_original, "Hello %d", 23);
+s21_sprintf(test_your, "Hello %d", 23);
+ck_assert_str_eq(test_original, test_your);
+
+#test sprintf_14
+char test_original[1024];
+char test_your[1024];
+sprintf(test_original, "Hello '%6.5d'", 23);
+s21_sprintf(test_your, "Hello '%6.5d'", 23);
+ck_assert_str_eq(test_original, test_your);
+
+#test sprintf_15
+char test_original[1024];
+char test_your[1024];
+sprintf(test_original, "Hello %-6d", 23);
+s21_sprintf(test_your, "Hello %-6d", 23);
+ck_assert_str_eq(test_original, test_your);
+
+#test sprintf_16
+char test_original[1024];
+char test_your[1024];
+sprintf(test_original, "Hello %+d", 23);
+s21_sprintf(test_your, "Hello %+d", 23);
+ck_assert_str_eq(test_original, test_your);
+
+#test sprintf_17
+char test_original[1024];
+char test_your[1024];
+sprintf(test_original, "Hello % d", 23);
+s21_sprintf(test_your, "Hello % d", 23);
+ck_assert_str_eq(test_original, test_your);
+
+#test sprintf_18
+char test_original[1024];
+char test_your[1024];
+sprintf(test_original, "Hello %hd", 23);
+s21_sprintf(test_your, "Hello %hd", 23);
+ck_assert_str_eq(test_original, test_your);
+
+#test sprintf_19
+char test_original[1024];
+char test_your[1024];
+sprintf(test_original, "Hello %ld", 238230000006325000);
+s21_sprintf(test_your, "Hello %ld", 238230000006325000);
+ck_assert_str_eq(test_original, test_your);
+
+#test sprintf_20
+char test_original[1024];
+char test_your[1024];
+sprintf(test_original, "Hello % 10d", 23);
+s21_sprintf(test_your, "Hello % 10d", 23);
+ck_assert_str_eq(test_original, test_your);
+
+#test sprintf_21
+char test_original[1024];
+char test_your[1024];
+sprintf(test_original, "Hello %+10d", 23);
+s21_sprintf(test_your, "Hello %+10d", 23);
+ck_assert_str_eq(test_original, test_your);
+
+#test sprintf_22
+char test_original[1024];
+char test_your[1024];
+sprintf(test_original, "Hello %+10d", -23);
+s21_sprintf(test_your, "Hello %+10d", -23);
+ck_assert_str_eq(test_original, test_your);
+
+#test sprintf_23
+char test_original[1024];
+char test_your[1024];
+sprintf(test_original, "Hello % 10d", -23);
+s21_sprintf(test_your, "Hello % 10d", -23);
+ck_assert_str_eq(test_original, test_your);
+
+#test sprintf_24
+char test_original[1024];
+char test_your[1024];
+sprintf(test_original, "saeflkahj% .10f dslkj", -4353.235300);
+s21_sprintf(test_your, "saeflkahj%.10f dslkj", -4353.235300);
+ck_assert_str_eq(test_original, test_your);
+
+#test sprintf_25
+char test_original[1024];
+char test_your[1024];
+sprintf(test_original, "saeflkahj%.10f dslkj", 13.235300);
+s21_sprintf(test_your, "saeflkahj%.10f dslkj", 13.235300);
+ck_assert_str_eq(test_original, test_your);
+
+#test sprintf_26
+char test_original[1024];
+char test_your[1024];
+sprintf(test_original, "saeflkahj%.f dslkj", 12.235300);
+s21_sprintf(test_your, "saeflkahj%.f dslkj", 12.235300);
+ck_assert_str_eq(test_original, test_your);
+
+#test sprintf_27
+char test_original[1024];
+char test_your[1024];
+sprintf(test_original, "saeflkahj% .f dslkj", 345.235300);
+s21_sprintf(test_your, "saeflkahj% .f dslkj", 345.235300);
+ck_assert_str_eq(test_original, test_your);
+
+#test sprintf_28
+char test_original[1024];
+char test_your[1024];
+sprintf(test_original, "saeflkahj%10.f dslkj", 0.235300);
+s21_sprintf(test_your, "saeflkahj%10.f dslkj", 0.235300);
+ck_assert_str_eq(test_original, test_your);
+
+#test sprintf_29
+char test_original[1024];
+char test_your[1024];
+sprintf(test_original, "saeflkahj%+.f dslkj", -0.235300);
+s21_sprintf(test_your, "saeflkahj%+.f dslkj", -0.235300);
+ck_assert_str_eq(test_original, test_your);
+
+#test sprintf_30
+char test_original[1024];
+char test_your[1024];
+sprintf(test_original, "saeflkahj%-.f dslkj", 20.235300);
+s21_sprintf(test_your, "saeflkahj%-.f dslkj", 20.235300);
+ck_assert_str_eq(test_original, test_your);
+
+#test sprintf_31
+char test_original[1024];
+char test_your[1024];
+sprintf(test_original, "saeflkahj%f dslkj", 0.000000006);
+s21_sprintf(test_your, "saeflkahj%f dslkj", 0.000000006);
+ck_assert_str_eq(test_original, test_your);
+
+#test sprintf_32
+char test_original[1024];
+char test_your[1024];
+sprintf(test_original, "saeflkahj%.f dslkj", 0.000000006);
+s21_sprintf(test_your, "saeflkahj%.f dslkj", 0.000000006);
+ck_assert_str_eq(test_original, test_your);
+
+#test sprintf_33
+char test_original[1024];
+char test_your[1024];
+sprintf(test_original, "saeflkahj%12f dslkj", 0.000000006);
+s21_sprintf(test_your, "saeflkahj%12f dslkj", 0.000000006);
+ck_assert_str_eq(test_original, test_your);
+
+#test sprintf_34
+char test_original[1024];
+char test_your[1024];
+sprintf(test_original, "saeflkahj%.12f dslkj", 0.000000006);
+s21_sprintf(test_your, "saeflkahj%.12f dslkj", 0.000000006);
+ck_assert_str_eq(test_original, test_your);
+
+#test sprintf_35
+char test_original[1024];
+char test_your[1024];
+sprintf(test_original, "saeflkahj%-.12f dslkj", 0.000000006);
+s21_sprintf(test_your, "saeflkahj%-.12f dslkj", 0.000000006);
+ck_assert_str_eq(test_original, test_your);
+
+#test sprintf_36
+char test_original[1024];
+char test_your[1024];
+sprintf(test_original, "saeflkahj%%%%%%%%%% dslkj");
+s21_sprintf(test_your, "saeflkahj%%%%%%%%%% dslkj");
+ck_assert_str_eq(test_original, test_your);
+
+#test sprintf_37
+char test_original[1024];
+char test_your[1024];
+sprintf(test_original, "saeflkahj%%%%%%%%%%%-.12f dslkj", 0.000000006);
+s21_sprintf(test_your, "saeflkahj%%%%%%%%%%%-.12f dslkj", 0.000000006);
+ck_assert_str_eq(test_original, test_your);
+
+#test sprintf_38
+char test_original[1024];
+char test_your[1024];
+sprintf(test_original, "saeflkahj%s dslkj", "0.000000006");
+s21_sprintf(test_your, "saeflkahj%s dslkj", "0.000000006");
+ck_assert_str_eq(test_original, test_your);
+
+#test sprintf_39
+char test_original[1024];
+char test_your[1024];
+sprintf(test_original, "saeflkahjdslkj%s", "^&*(=...%");
+s21_sprintf(test_your, "saeflkahjdslkj%s", "^&*(=...%");
+ck_assert_str_eq(test_original, test_your);
+
+#test sprintf_40
+char test_original[1024];
+char test_your[1024];
+sprintf(test_original, "%ssaeflkahj dslkj", "^&*(=...%");
+s21_sprintf(test_your, "%ssaeflkahj dslkj", "^&*(=...%");
+ck_assert_str_eq(test_original, test_your);
+
+#test sprintf_41
+char test_original[1024];
+char test_your[1024];
+sprintf(test_original, "%ssaeflkahj%sdslkj%s", "^&*(=...%", "jk", "");
+s21_sprintf(test_your, "%ssaeflkahj%sdslkj%s", "^&*(=...%", "jk", "");
+ck_assert_str_eq(test_original, test_your);
+
+#test sprintf_42
+char test_original[1024];
+char test_your[1024];
+sprintf(test_original, "%ssaeflkahj%sdslkj%s", "", "", " ");
+s21_sprintf(test_your, "%ssaeflkahj%sdslkj%s", "", "", " ");
+ck_assert_str_eq(test_original, test_your);
+
+#test sprintf_43
+char test_original[1024];
+char test_your[1024];
+sprintf(test_original, "%-ssaeflkahj%1sdslkj%s", "^&*(=...%", "jk", "");
+s21_sprintf(test_your, "%-ssaeflkahj%1sdslkj%s", "^&*(=...%", "jk", "");
+ck_assert_str_eq(test_original, test_your);
+
+#test sprintf_44
+char test_original[1024];
+char test_your[1024];
+sprintf(test_original, "%3ssaeflkahj%1sdslkj%10s", "^&*(=...%", " ", "");
+s21_sprintf(test_your, "%3ssaeflkahj%1sdslkj%10s", "^&*(=...%", " ", "");
+ck_assert_str_eq(test_original, test_your);
