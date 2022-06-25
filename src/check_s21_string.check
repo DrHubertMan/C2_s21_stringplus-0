@@ -5395,7 +5395,7 @@ sprintf(test_original, "Hello %5c", 'W');
 s21_sprintf(test_your, "Hello %5c", 'W');
 ck_assert_str_eq(test_original, test_your);
 
-#test sprintf_
+#test sprintf_6
 char test_original[1024];
 char test_your[1024];
 sprintf(test_original, "Hello %-c", 'W');
@@ -5667,3 +5667,24 @@ char test_your[1024];
 sprintf(test_original, "%3ssaeflkahj%1sdslkj%10s", "^&*(=...%", " ", "");
 s21_sprintf(test_your, "%3ssaeflkahj%1sdslkj%10s", "^&*(=...%", " ", "");
 ck_assert_str_eq(test_original, test_your);
+
+#test sprintf_45
+char test_original[1024];
+char test_your[1024];
+sprintf(test_original, " number %u", 45);
+s21_sprintf(test_your, " number %u", 45);
+ck_assert_str_eq(test_original, test_your);
+
+#test sprintf_46
+char test_original[1024];
+char test_your[1024];
+sprintf(test_original, " number");
+s21_sprintf(test_your, " number");
+ck_assert_str_eq(test_original, test_your);
+
+#test sprintf_47
+char str1[1024];
+char str2[1024];
+s21_sprintf(str2, "Hola %i", 3534555);
+sprintf(str1, "Hola %i", 3534555);
+ck_assert_str_eq(str1, str2);
