@@ -5763,6 +5763,25 @@ sprintf(test_original, " number %hu", 65500);
 s21_sprintf(test_your, " number %hu", 65500);
 ck_assert_str_eq(test_original, test_your);
 
+#test sprintf_50
+char test_original[1024];
+char test_your[1024];
+sprintf(test_original, " number %.1s", "lolkek");
+s21_sprintf(test_your, " number %.1s", "lolkek");
+ck_assert_str_eq(test_original, test_your);
+
+#test sprintf_51
+char test_original[1024] = " number %";
+char test_your[1024];
+s21_sprintf(test_your, " number %10%");
+ck_assert_str_eq(test_original, test_your);
+
+#test sprintf_52
+char test_original[1024];
+char test_your[1024];
+sprintf(test_original, " number %%");
+s21_sprintf(test_your, " number %%");
+ck_assert_str_eq(test_original, test_your);
 
 #test strerror_1
 int i = 0;
