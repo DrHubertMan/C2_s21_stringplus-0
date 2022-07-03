@@ -11,11 +11,6 @@
 #include "s21_string.h"
 #include "s21_sprintf.h"
 
-void part1_tests(TCase *tc1_1);
-void part2_tests(TCase *tc1_1);
-void part3_tests(TCase *tc1_1);
-void part4_tests(TCase *tc1_1);
-
 START_TEST(memmove_1) {
 #line 8
 char dest[] = "123";
@@ -9155,9 +9150,6 @@ void part1_tests(TCase *tc1_1) {
     tcase_add_test(tc1_1, memcmp_48);
     tcase_add_test(tc1_1, memcmp_49);
     tcase_add_test(tc1_1, memcmp_50);
-}
-
-void part2_tests(TCase *tc1_1) {
     tcase_add_test(tc1_1, memset_1);
     tcase_add_test(tc1_1, memset_2);
     tcase_add_test(tc1_1, memset_3);
@@ -9237,6 +9229,9 @@ void part2_tests(TCase *tc1_1) {
     tcase_add_test(tc1_1, strncat_7);
     tcase_add_test(tc1_1, strncat_8);
     tcase_add_test(tc1_1, strncat_9);
+}
+
+void part2_tests(TCase *tc1_1) {
     tcase_add_test(tc1_1, strncat_10);
     tcase_add_test(tc1_1, strncat_11);
     tcase_add_test(tc1_1, strncat_12);
@@ -9396,9 +9391,6 @@ void part2_tests(TCase *tc1_1) {
     tcase_add_test(tc1_1, strncmp_62);
     tcase_add_test(tc1_1, strncmp_63);
     tcase_add_test(tc1_1, strncmp_64);
-}
-
-void part3_tests(TCase *tc1_1) {
     tcase_add_test(tc1_1, strcspn_1);
     tcase_add_test(tc1_1, strcspn_2);
     tcase_add_test(tc1_1, strcspn_3);
@@ -9433,6 +9425,9 @@ void part3_tests(TCase *tc1_1) {
     tcase_add_test(tc1_1, strcspn_32);
     tcase_add_test(tc1_1, strcspn_33);
     tcase_add_test(tc1_1, strcspn_34);
+}
+
+void part3_tests(TCase *tc1_1) {
     tcase_add_test(tc1_1, strlen_1);
     tcase_add_test(tc1_1, strlen_2);
     tcase_add_test(tc1_1, strlen_3);
@@ -9622,9 +9617,6 @@ void part3_tests(TCase *tc1_1) {
     tcase_add_test(tc1_1, strcat_7);
     tcase_add_test(tc1_1, strcat_8);
     tcase_add_test(tc1_1, strcat_9);
-}
-
-void part4_tests(TCase *tc1_1) {
     tcase_add_test(tc1_1, strcat_10);
     tcase_add_test(tc1_1, strcat_11);
     tcase_add_test(tc1_1, strcat_12);
@@ -9640,6 +9632,9 @@ void part4_tests(TCase *tc1_1) {
     tcase_add_test(tc1_1, strcat_22);
     tcase_add_test(tc1_1, strcat_23);
     tcase_add_test(tc1_1, strcat_24);
+}
+
+void part4_tests(TCase *tc1_1) {
     tcase_add_test(tc1_1, strspn_1);
     tcase_add_test(tc1_1, strspn_2);
     tcase_add_test(tc1_1, strspn_3);
@@ -9927,10 +9922,10 @@ int main(void) {
     SRunner *sr = srunner_create(s1);
     int nf;
     suite_add_tcase(s1, tc1_1);
-    void part1_tests(TCase *tc1_1);
-    void part2_tests(TCase *tc1_1);
-    void part3_tests(TCase *tc1_1);
-    void part4_tests(TCase *tc1_1);
+    part1_tests(tc1_1);
+    part2_tests(tc1_1);
+    part3_tests(tc1_1);
+    part4_tests(tc1_1);
     srunner_run_all(sr, CK_ENV);
     nf = srunner_ntests_failed(sr);
     srunner_free(sr);
